@@ -1,0 +1,8 @@
+streamlit
+pandas
+plotly
+requests
+bs4
+yfinance
+datetime
+pymongo==4.1.1
