@@ -8,6 +8,7 @@ import datetime
 import Stock
 import numpy as np
 import pymongo
+from pymongo import MongoClient
 
 
 #Getting list of tickers
@@ -24,6 +25,20 @@ asx_dict=asx_list.to_dict('index')
 #Config dashboard
 st.set_page_config(layout="wide")
 
+
+#Config Mongo Client
+mongo_string ="mongodb+srv://"+ st.secrets.mongo.username +":"+st.secrets.mongo.password+"@asset-cluster.gg8sr.mongodb.net/?retryWrites=true&w=majority"
+cluster = MongoClient(mongo_string)
+db =cluster['AssetEvaluations']
+collection_notes =db['Notes']
+
+results =collection_notes.find({"Ticker"})
+Notes_list=[]
+for note in results:
+    note_dic ={}
+    note_dic['Date'] =note["Date"]
+    note_dic['Note'] =note["Note"]
+    Notes_list.append(note_dic)
 
 
 
@@ -78,8 +93,16 @@ with st.container():
 
 with st.container():
     st.subheader('Notes')
-    mongo_string ="mongodb+srv://"+ st.secrets.mongo.username +":"+st.secrets.mongo.password+"@asset-cluster.gg8sr.mongodb.net/?retryWrites=true&w=majority"
-    st.write(mongo_string)
+
+    if len(Notes_list)>0:
+        st.write("No notes currently on stock")
+    
+    else:
+        for stock_note in Notes_list:
+            st.write(stock_note['Date'],": ", stock_note['Note'])
+
+    
+    
 
 
   
