@@ -12,3 +12,4 @@ pymongo==4.1.1
 numpy
 protobuf~=3.19.0
 pymongo[srv]
+pyautogui
