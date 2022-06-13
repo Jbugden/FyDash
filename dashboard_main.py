@@ -10,28 +10,11 @@ import numpy as np
 import pymongo
 
 
-
-# Initialize connection.
-# Uses st.experimental_singleton to only run once.
-@st.experimental_singleton
-def init_connection():
-    return pymongo.MongoClient(**st.secrets["mongo"])
-
-client = init_connection()
-
-
 #Getting list of tickers
 #in future will be webscrapped
 
 
-@st.experimental_memo(ttl=600)
-def get_data():
-    db = client.AssetEvaluations
-    items = db.mycollection.find()
-    items = list(items)  # make hashable for st.experimental_memo
-    return items
 
-items = get_data()
 
 asx_list = pd.read_csv('asx_list.csv')
 asx_list['Index_Code']= asx_list['ASX code']
