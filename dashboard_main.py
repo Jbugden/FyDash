@@ -11,12 +11,9 @@ import pymongo
 from pymongo import MongoClient
 
 
+
 #Getting list of tickers
 #in future will be webscrapped
-
-
-
-
 asx_list = pd.read_csv('asx_list.csv')
 asx_list['Index_Code']= asx_list['ASX code']
 asx_list.set_index('Index_Code', inplace=True)
@@ -33,7 +30,8 @@ db =cluster['AssetEvaluations']
 collection_notes =db['Notes']
 
 
-
+#Current Date
+current_date = datetime.datetime.now().strftime("%Y-%m-%d")
 
 
 
@@ -108,9 +106,13 @@ with secndc2.container():
                 collection_notes.delete_one({"Date": stock_note['Date'], "Note": stock_note['Note']})
             idx= idx+ 1
     
-    st.text_area('Text to analyze', '''
-     Input note text here...
+    note = st.text_area('Add a note..', '''
      ''')
+    
+    add_button =st.button("Add Note")
+    if add_button:
+        post={"Ticker": ticker_select,"Note": note, "Date": current_date}
+        collection_notes.insert_one(post)
 
 
     
