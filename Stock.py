@@ -136,31 +136,28 @@ class Stock(object):
         three_years_ago =(datetime.datetime.now() - datetime.timedelta(days=3*365)).strftime("%Y-%m-%d")
         one_years_ago =(datetime.datetime.now() - datetime.timedelta(days=1*365)).strftime("%Y-%m-%d")
         
-        betas =[]
-        columns =[]
+        betas ={}
+        
         try:
-            betas.append(self.get_beta(ten_years_ago))
-            columns.append('10')
+            betas['10 Year'] =self.get_beta(ten_years_ago)
+            
         except:
             print("10 Year didnt work")
         try:
-            betas.append(self.get_beta(five_years_ago))
-            columns.append('5')
+             betas['5 Year'] =self.get_beta(five_years_ago)
         except:
             print("5 Year didnt work")
         try:
-            betas.append(self.get_beta(three_years_ago))
-            columns.append('3')
+            betas['3 Year'] =self.get_beta(three_years_ago)
         except:
             print("3 Year didnt work")
         try:
-            betas.append(self.get_beta(one_years_ago))
-            columns.append('1')
+            betas['1 Year'] =self.get_beta(one_years_ago)
         except:
             print("1 Year didnt work")
 
 
-        return (columns,betas)
+        return (betas)
 
 
 
