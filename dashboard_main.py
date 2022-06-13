@@ -99,6 +99,7 @@ with secndc1.container():
     data = chosen_stock.get_beta_list()
     if len(data) >0:
         beta_chart =pd.DataFrame(data)
+        st.dataframe(beta_chart)
         
     else:
         st.write("Unable to get beta data- not enough close data")
