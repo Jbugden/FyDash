@@ -79,8 +79,23 @@ with fc2:
 secndc1,secndc2 =first_container.columns((1,1))
 
 with secndc1.container():
-    st.subheader('Business Summary')
-    st.write(chosen_stock.business_summary())
+    with st.expander('Business Summary'):
+        st.subheader('Business Summary')
+        st.write(chosen_stock.business_summary())
+    
+    with st.expander('Recent News'):
+        news=chosen_stock.get_news()
+        for n in news:
+            temp=dict(n)
+            st.write(temp['publisher'])
+            st.write(temp['title'])
+            link_a =str(temp['link'])
+            
+            st.write("[Article Link](%s)"% (link_a))
+    
+    st.subheader("Beta Values")
+    beta_chart =pd.DataFrame(chosen_stock.get_beta_list, columns= [10,5,3,1])
+    st.line_chart(beta_chart)
 
     
 
@@ -111,15 +126,7 @@ with secndc2.container():
         post={"Ticker": ticker_select,"Note": note, "Date": current_date}
         collection_notes.insert_one(post)
 
-    with st.expander("Recent News"):
-        news=chosen_stock.get_news()
-        for n in news:
-            temp=dict(n)
-            st.write(temp['publisher'])
-            st.write(temp['title'])
-            link_a =str(temp['link'])
-            
-            st.write("[Article Link](%s)"% (link_a))
+
         
 
 

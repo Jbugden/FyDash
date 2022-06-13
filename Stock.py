@@ -3,6 +3,9 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import yfinance as yf
 import datetime
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
 #import pymongo
 #from pymongo import MongoClient
 
@@ -107,28 +110,41 @@ class Stock(object):
     def return_Balance_sheet(self):
         return self.yf_data.balance_sheet
 
+    def get_beta(self, date):
+        tickers =[(str(self.ticker)+".ax"), 'STW.AX']
+        data =yf.download(tickers, date)['Adj Close']
 
-"""
-    def get_notes(self):
-        db=self.cluster['AssetEvaluations']
-        collection=db['Notes']
-        results =collection.find({"Ticker":self.ticker})
-        
-        notes_list=[]
-        for result in results:
-            note_dic={}
-            note_dic['Date'] =result["Date"]
-            note_dic['Note'] =result["Note"]
-            notes_list.append(note_dic)
-        
-        if len(notes_list)<1:
-            note_dic={}
-            note_dic['Date'] ="N/A"
-            note_dic['Note'] ="No notes have been provided"
-            notes_list.append(note_dic)
+        price_change =data.pct_change()
+        df = price_change.drop(price_change.index[0])
 
-        return notes_list
-"""
+        stock =np.array(df.iloc[:,0]).reshape((-1,1))
+        market =np.array(df.iloc[:,1])
+
+        model = LinearRegression().fit(stock, market)
+
+        return model.coef_[0]
+
+    
+
+    def get_beta_list(self):
+        ten_years_ago =(datetime.datetime.now() - datetime.timedelta(days=10*365)).strftime("%Y-%m-%d")
+        five_years_ago =(datetime.datetime.now() - datetime.timedelta(days=5*365)).strftime("%Y-%m-%d")
+        three_years_ago =(datetime.datetime.now() - datetime.timedelta(days=3*365)).strftime("%Y-%m-%d")
+        one_years_ago =(datetime.datetime.now() - datetime.timedelta(days=1*365)).strftime("%Y-%m-%d")
+        
+        betas =[]
+
+        betas.append(self.get_beta(ten_years_ago))
+        betas.append(self.get_beta(five_years_ago))
+        betas.append(self.get_beta(three_years_ago))
+        betas.append(self.get_beta(one_years_ago))
+
+
+        return (betas)
+
+
+
+
     
 
         
