@@ -98,7 +98,7 @@ with secndc1.container():
     
     data = chosen_stock.get_beta_list()
     if len(data) >0:
-        beta_chart =pd.DataFrame(data)
+        beta_chart =pd.DataFrame.from_dict(data)
         st.dataframe(beta_chart)
         
     else:
