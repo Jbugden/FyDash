@@ -85,13 +85,15 @@ with fc1:
 with fc2:
     st.line_chart(chosen_stock.close_data())
 
-with st.container():
+secndc1,secndc2 =first_container.columns((1,1))
+
+with secndc1.container():
     st.subheader('Business Summary')
     st.write(chosen_stock.business_summary())
 
 
 
-with st.container():
+with secndc2.container():
     st.subheader('Notes')
 
     if len(Notes_list)<1:
@@ -100,6 +102,14 @@ with st.container():
     else:
         for stock_note in Notes_list:
             st.write(stock_note['Date'],": ", stock_note['Note'])
+            delete_button =st.button("Delete Note")
+            if delete_button:
+                collection_notes.delete_one({"Date": stock_note['Date'], "Note": stock_note['Note']})
+    
+    txt = st.text_area('Text to analyze', '''
+     Input note text here...
+     ''')
+
 
     
     
