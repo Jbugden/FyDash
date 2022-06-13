@@ -40,15 +40,7 @@ with st.sidebar:
     st.title("Stock Evaluation Dashboard")
     ticker_select =st.selectbox('ASX Ticker',list(asx_dict.keys()))
     chosen_stock=Stock.Stock(ticker_select)
-    st.subheader('Recent News')
-    news=chosen_stock.get_news()
-    for n in news:
-        temp=dict(n)
-        st.write(temp['publisher'])
-        st.write(temp['title'])
-        link_a =str(temp['link'])
-        
-        st.write("[Article Link](%s)"% (link_a))
+
 
 results =collection_notes.find({"Ticker": ticker_select})
 Notes_list=[]
@@ -89,6 +81,16 @@ secndc1,secndc2 =first_container.columns((1,1))
 with secndc1.container():
     st.subheader('Business Summary')
     st.write(chosen_stock.business_summary())
+
+    st.subheader('Recent News')
+    news=chosen_stock.get_news()
+    for n in news:
+        temp=dict(n)
+        st.write(temp['publisher'])
+        st.write(temp['title'])
+        link_a =str(temp['link'])
+        
+        st.write("[Article Link](%s)"% (link_a))
 
 
 
