@@ -76,17 +76,7 @@ with fc1:
     st.write('Market Cap:   ','${:,.2f}'.format(np.round(summary_info['Market Cap'],2)))
 
 with fc2:
-    market = Stock.Stock('STW')
-
-    stock_data =chosen_stock.close_data().to_frame()
-    stock_data.reset_index(inplace=True)
-    market_data =market.close_data().to_frame()
-    market_data.reset_index(inplace=True)
-    fig = plt.figure(figsize = (10, 5))
-    plt.plot(stock_data['Date'],stock_data['Close'])
-    plt.plot(market_data['Date'],market_data['Close'])
-    plt.xlabel('Date')
-    st.pyplot(fig)
+    st.line_chart(chosen_stock.close_data())
 
 secndc1,secndc2 =first_container.columns((1,1))
 
@@ -114,9 +104,29 @@ with secndc1.container():
         
     else:
         st.write("Unable to get beta data- not enough close data")
-
     
+    st.subheader("Comparison vs Market")
+    market = Stock.Stock('STW')
+    stock_data =chosen_stock.close_data().to_frame()
+    stock_data.reset_index(inplace=True)
+    market_data =market.close_data().to_frame()
+    market_data.reset_index(inplace=True)
 
+    market_data['Ticker']="Market"
+    stock_data['Ticker']=ticker_select
+
+    market_data['Change'] =market_data['Close'].pct_change().cumsum()
+    stock_data['Change'] =stock_data['Close'].pct_change().cumsum()
+
+    market_data['Date'] =market_data['Date'].astype(str)
+    stock_data['Date'] =stock_data['Date'].astype(str)
+
+    market_data['Date'] =market_data['Date'].astype(str)
+    stock_data['Date'] =stock_data['Date'].astype(str)
+    
+    combined = market_data.merge(stock_data, on ='Date', how ='left')
+
+    st.write(combined)
 
 
 

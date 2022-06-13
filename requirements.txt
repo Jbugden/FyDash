@@ -14,3 +14,4 @@ protobuf~=3.19.0
 pymongo[srv]
 pyautogui
 sklearn
+altair
