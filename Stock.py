@@ -4,10 +4,10 @@ import pandas as pd
 import yfinance as yf
 import datetime
 import numpy as np
-from sklearn.linear_model import LinearRegression
+import sklearn
 
 #import pymongo
-#from pymongo import MongoClient
+#from pymongo import MonoClient
 
 class Stock(object):
     def __init__(self,ticker):
@@ -120,7 +120,7 @@ class Stock(object):
         stock =np.array(df.iloc[:,0]).reshape((-1,1))
         market =np.array(df.iloc[:,1])
 
-        model = LinearRegression().fit(stock, market)
+        model = sklearn.linear_model.LinearRegression().fit(stock, market)
 
         return model.coef_[0]
 

@@ -13,4 +13,4 @@ numpy
 protobuf~=3.19.0
 pymongo[srv]
 pyautogui
-sklearn.linear_model
+sklearn
