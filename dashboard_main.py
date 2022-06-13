@@ -126,7 +126,15 @@ with secndc1.container():
     
     combined = market_data.merge(stock_data, on ='Date', how ='left')
 
-    st.write(combined)
+    combined.set_index('Date')
+    combined.dropna()
+    combined.renamed(columns={'Change_x':'Market','Change_y':ticker_select}, inplace = True)
+    
+    fin_combined =combined[['Market',ticker_select]]
+
+
+
+    st.write(fin_combined)
 
 
 
