@@ -78,7 +78,7 @@ with st.container():
 
 with st.container():
     st.subheader('Notes')
-    mongo_string ="mongodb+srv://"+ st.secrets["username"]+":"+st.secrets["password"]+"@asset-cluster.gg8sr.mongodb.net/?retryWrites=true&w=majority"
+    mongo_string ="mongodb+srv://"+ st.secrets.mongo.username +":"+st.secrets.mongo.password["password"]+"@asset-cluster.gg8sr.mongodb.net/?retryWrites=true&w=majority"
     st.write(mongo_string)
 
 
