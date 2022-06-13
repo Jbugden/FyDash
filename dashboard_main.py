@@ -100,11 +100,13 @@ with secndc2.container():
         st.write("No notes currently on stock")
     
     else:
+        idx=0
         for stock_note in Notes_list:
             st.write(stock_note['Date'],": ", stock_note['Note'])
-            delete_button =st.button("Delete Note")
+            delete_button =st.button("Delete Note",key = idx)
             if delete_button:
                 collection_notes.delete_one({"Date": stock_note['Date'], "Note": stock_note['Note']})
+            idx= idx+ 1
     
     st.text_area('Text to analyze', '''
      Input note text here...
