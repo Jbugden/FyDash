@@ -94,7 +94,7 @@ with secndc1.container():
             st.write("[Article Link](%s)"% (link_a))
     
     st.subheader("Beta Values")
-    beta_chart =pd.DataFrame(chosen_stock.get_beta_list, columns= [10,5,3,1])
+    beta_chart =pd.DataFrame(chosen_stock.get_beta_list, columns= ['10','5','3','1'])
     st.line_chart(beta_chart)
 
     
