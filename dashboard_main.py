@@ -7,9 +7,32 @@ import yfinance as yf
 import datetime
 import Stock
 import numpy as np
+import pymongo
+
+
+
+# Initialize connection.
+# Uses st.experimental_singleton to only run once.
+@st.experimental_singleton
+def init_connection():
+    return pymongo.MongoClient(**st.secrets["mongo"])
+
+client = init_connection()
+
 
 #Getting list of tickers
 #in future will be webscrapped
+
+
+@st.experimental_memo(ttl=600)
+def get_data():
+    db = client.AssetEvaluations
+    items = db.mycollection.find()
+    items = list(items)  # make hashable for st.experimental_memo
+    return items
+
+items = get_data()
+
 asx_list = pd.read_csv('asx_list.csv')
 asx_list['Index_Code']= asx_list['ASX code']
 asx_list.set_index('Index_Code', inplace=True)
@@ -72,19 +95,12 @@ with st.container():
 
 with st.container():
     st.subheader('Notes')
+    mongo_string ="mongodb+srv://"+ st.secrets["username"]+":"+st.secrets["password"]+"@asset-cluster.gg8sr.mongodb.net/?retryWrites=true&w=majority"
+    st.write(mongo_string)
 
 
   
 
-"""
-with st.container():
-    st.subheader('Income Statement')
-    st.dataframe(chosen_stock.return_cashflow())
 
-with st.container():
-    st.subheader('Balance Sheet')
-    st.dataframe(chosen_stock.return_Balance_sheet())
-    
-"""
 
 
