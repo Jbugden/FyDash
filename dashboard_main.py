@@ -128,7 +128,7 @@ with secndc1.container():
 
     combined.set_index('Date')
     combined.dropna()
-    combined.renamed(columns={'Change_x':'Market','Change_y':ticker_select}, inplace = True)
+    combined.rename(columns={'Change_x':'Market','Change_y':ticker_select}, inplace = True)
     
     fin_combined =combined[['Market',ticker_select]]
 
