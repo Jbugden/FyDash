@@ -106,7 +106,7 @@ with secndc2.container():
             if delete_button:
                 collection_notes.delete_one({"Date": stock_note['Date'], "Note": stock_note['Note']})
     
-    txt = st.text_area('Text to analyze', '''
+    st.text_area('Text to analyze', '''
      Input note text here...
      ''')
 
