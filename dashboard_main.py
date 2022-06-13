@@ -9,6 +9,7 @@ import Stock
 import numpy as np
 import pymongo
 from pymongo import MongoClient
+from sklearn.linear_model import LinearRegression
 
 
 
@@ -94,8 +95,13 @@ with secndc1.container():
             st.write("[Article Link](%s)"% (link_a))
     
     st.subheader("Beta Values")
-    beta_chart =pd.DataFrame(chosen_stock.get_beta_list(), columns= ['Ten Year','Five Year','Three Year','One Year'])
-    st.line_chart(beta_chart)
+    
+    column, data = chosen_stock.get_beta_list()
+    if len(data) >0:
+        beta_chart =pd.DataFrame(column,data)
+        st.line_chart(beta_chart)
+    else:
+        st.write("Unable to get beta data- not enough close data")
 
     
 

@@ -53,6 +53,10 @@ class Stock(object):
 
         return summary
     
+    def earliest_date(self):
+        data=self.yf_data.history(period='id', start =self.ten_years_ago, end =self.current_date)
+
+        return
 
     def close_data(self):
 
@@ -133,14 +137,30 @@ class Stock(object):
         one_years_ago =(datetime.datetime.now() - datetime.timedelta(days=1*365)).strftime("%Y-%m-%d")
         
         betas =[]
+        columns =[]
+        try:
+            betas.append(self.get_beta(ten_years_ago))
+            columns.append('10')
+        except:
+            print("10 Year didnt work")
+        try:
+            betas.append(self.get_beta(five_years_ago))
+            columns.append('5')
+        except:
+            print("5 Year didnt work")
+        try:
+            betas.append(self.get_beta(three_years_ago))
+            columns.append('3')
+        except:
+            print("3 Year didnt work")
+        try:
+            betas.append(self.get_beta(one_years_ago))
+            columns.append('1')
+        except:
+            print("1 Year didnt work")
 
-        betas.append(self.get_beta(ten_years_ago))
-        betas.append(self.get_beta(five_years_ago))
-        betas.append(self.get_beta(three_years_ago))
-        betas.append(self.get_beta(one_years_ago))
 
-
-        return (betas)
+        return (columns,betas)
 
 
 
