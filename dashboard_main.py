@@ -1,4 +1,5 @@
 from matplotlib import container
+from sklearn.tree import plot_tree
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
@@ -10,7 +11,7 @@ import numpy as np
 import pymongo
 from pymongo import MongoClient
 from sklearn.linear_model import LinearRegression
-
+import matplotlib.pyplot as plt
 
 
 
@@ -75,7 +76,17 @@ with fc1:
     st.write('Market Cap:   ','${:,.2f}'.format(np.round(summary_info['Market Cap'],2)))
 
 with fc2:
-    st.line_chart(chosen_stock.close_data())
+    market = Stock.Stock('STW')
+
+    stock_data =chosen_stock.close_data().to_frame()
+    stock_data.reset_index(inplace=True)
+    market_data =market.close_data().to_frame()
+    market_data.reset_index(inplace=True)
+    fig = plt.figure(figsize = (10, 5))
+    plt.plot(stock_data['Date'],stock_data['Close'])
+    plt.plot(market_data['Date'],market_data['Close'])
+    plt.xlabel('Date')
+    st.pyplot(fig)
 
 secndc1,secndc2 =first_container.columns((1,1))
 
