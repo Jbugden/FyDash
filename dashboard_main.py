@@ -32,13 +32,7 @@ cluster = MongoClient(mongo_string)
 db =cluster['AssetEvaluations']
 collection_notes =db['Notes']
 
-results =collection_notes.find({"Ticker"})
-Notes_list=[]
-for note in results:
-    note_dic ={}
-    note_dic['Date'] =note["Date"]
-    note_dic['Note'] =note["Note"]
-    Notes_list.append(note_dic)
+
 
 
 
@@ -57,7 +51,13 @@ with st.sidebar:
         
         st.write("[Article Link](%s)"% (link_a))
 
-
+results =collection_notes.find({"Ticker": ticker_select})
+Notes_list=[]
+for note in results:
+    note_dic ={}
+    note_dic['Date'] =note["Date"]
+    note_dic['Note'] =note["Note"]
+    Notes_list.append(note_dic)
 
 
 #Title
