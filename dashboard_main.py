@@ -9,7 +9,7 @@ import Stock
 import numpy as np
 import pymongo
 from pymongo import MongoClient
-import pyautogui
+
 
 
 
@@ -106,7 +106,7 @@ with secndc2.container():
             delete_button =st.button("Delete Note",key = idx)
             if delete_button:
                 collection_notes.delete_one({"Date": stock_note['Date'], "Note": stock_note['Note']})
-                pyautogui.hotkey("ctrl","F5")
+                
             idx= idx+ 1
     
     note = st.text_area('Add a note..', '''
@@ -116,7 +116,7 @@ with secndc2.container():
     if add_button:
         post={"Ticker": ticker_select,"Note": note, "Date": current_date}
         collection_notes.insert_one(post)
-        pyautogui.hotkey("ctrl","F5")
+        
 
 
     
