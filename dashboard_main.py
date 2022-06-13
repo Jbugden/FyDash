@@ -94,7 +94,7 @@ with st.container():
 with st.container():
     st.subheader('Notes')
 
-    if len(Notes_list)>0:
+    if len(Notes_list)<1:
         st.write("No notes currently on stock")
     
     else:
