@@ -134,7 +134,7 @@ with secndc1.container():
 
 
 
-    st.write(fin_combined)
+    st.line_chart(fin_combined)
 
 
 
